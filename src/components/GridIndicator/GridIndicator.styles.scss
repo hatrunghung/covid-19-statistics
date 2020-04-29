@@ -3,3 +3,10 @@
   margin: 5px;
   border: 1px solid #363636;
 }
+
+.detail-card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}

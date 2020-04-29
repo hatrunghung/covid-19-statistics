@@ -5,25 +5,13 @@ const AnalyticsDispatchContext = React.createContext()
 
 const analyticsReducer = (state, action) => {
   switch (action.type) {
-    case 'increment': {
-      return {
-        ...state,
-        count: state.count + 1
-      }
-    }
-    case 'decrement': {
-      return {
-        ...state,
-        count: state.count - 1
-      }
-    }
     case 'loading': {
       return {
         ...state,
         loading: true
       }
     }
-    case 'resolved': {
+    case 'resolvedIndicate': {
       return {
         ...state,
         confirmed: action.payload.confirmed,
@@ -31,6 +19,12 @@ const analyticsReducer = (state, action) => {
         recovered: action.payload.recovered,
         lastUpdate: action.payload.lastUpdate,
         loading: false,
+      }
+    }
+    case 'resolvedFetchMajorCase': {
+      return {
+        ...state,
+        critical: action.payload.critical
       }
     }
     case 'error': {
@@ -47,11 +41,11 @@ const analyticsReducer = (state, action) => {
 }
 
 const initialState = {
-  count: 0,
   confirmed: 0,
   deaths: 0,
   recovered: 0,
   lastUpdate: null,
+  critical: 0,
   loading: false,
   error: null
 }
