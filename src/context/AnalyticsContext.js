@@ -1,54 +1,9 @@
 import React from 'react'
+import analyticsReducer from './analytic/analyticReducer'
+import initialState from './analytic/initialState'
 
 const AnalyticsStateContext = React.createContext()
 const AnalyticsDispatchContext = React.createContext()
-
-const analyticsReducer = (state, action) => {
-  switch (action.type) {
-    case 'loading': {
-      return {
-        ...state,
-        loading: true
-      }
-    }
-    case 'resolvedIndicate': {
-      return {
-        ...state,
-        confirmed: action.payload.confirmed,
-        deaths: action.payload.deaths,
-        recovered: action.payload.recovered,
-        lastUpdate: action.payload.lastUpdate,
-        loading: false,
-      }
-    }
-    case 'resolvedFetchMajorCase': {
-      return {
-        ...state,
-        critical: action.payload.critical
-      }
-    }
-    case 'error': {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error
-      }
-    }
-    default: {
-      return state
-    }
-  }
-}
-
-const initialState = {
-  confirmed: 0,
-  deaths: 0,
-  recovered: 0,
-  lastUpdate: null,
-  critical: 0,
-  loading: false,
-  error: null
-}
 
 const AnalyticsProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(analyticsReducer, initialState)

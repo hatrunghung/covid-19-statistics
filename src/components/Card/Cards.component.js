@@ -1,7 +1,7 @@
 import React from 'react'
 import CountUp from 'react-countup'
 import { Row, Col } from 'react-bootstrap'
-import { useAnalyticsState } from '../../AnalyticsContext'
+import { useAnalyticsState } from '../../context/AnalyticsContext'
 
 function Cards() {
   const { confirmed, deaths, recovered, critical } = useAnalyticsState()
@@ -17,7 +17,9 @@ function Cards() {
           <div className="grid-col">
             <div style={{ fontSize: 20 }}>Active cases:</div>
             <div>
-              <h2 style={{ color: 'rgb(255,255,255)' }}>{confirmed - deaths - recovered}</h2>
+              <h2 style={{ color: 'rgb(255,255,255)' }}>
+                <CountUp start={0} end={confirmed - deaths - recovered} duration={2} separator='.' />
+              </h2>
               <div>Currently infected patients</div>
             </div>
             <div className="detail-card-container">
@@ -27,7 +29,7 @@ function Cards() {
                   fontWeight: 'bold',
                   color: 'rgb(218, 78, 91)'
                 }}>
-                  <CountUp start={0} end={confirmed - deaths - recovered - critical} duration={2} />
+                  <CountUp start={0} end={confirmed - deaths - recovered - critical} duration={2} separator='.' />
                 </span>
                 <br />
                 Mildly infected cases
@@ -38,7 +40,7 @@ function Cards() {
                   fontWeight: 'bold',
                   color: 'rgb(189, 33, 48)'
                 }}>
-                  <CountUp start={0} end={critical} duration={2} />
+                  <CountUp start={0} end={critical} duration={2} separator='.' />
                 </span>
                 <br />
                 Seriously infected cases
@@ -56,7 +58,9 @@ function Cards() {
           <div className="grid-col">
             <div style={{ fontSize: 20 }}>Close cases:</div>
             <div>
-              <h2 style={{ color: 'rgb(255,255,255)' }}>{deaths + recovered}</h2>
+              <h2 style={{ color: 'rgb(255,255,255)' }}>
+                <CountUp start={0} end={deaths + recovered} duration={2} separator='.' />
+              </h2>
               <div>Currently closed cases</div>
             </div>
             <div className="detail-card-container">
@@ -66,7 +70,7 @@ function Cards() {
                   fontWeight: 'bold',
                   color: 'rgb(164, 201, 57)'
                 }}>
-                  <CountUp start={0} end={recovered} duration={2} />
+                  <CountUp start={0} end={recovered} duration={2} separator='.' />
                 </span>
                 <br />
                 Recovered / Discharged
@@ -77,7 +81,7 @@ function Cards() {
                   fontWeight: 'bold',
                   color: 'rgb(189, 189, 189)'
                 }}>
-                  <CountUp start={0} end={deaths} duration={2} />
+                  <CountUp start={0} end={deaths} duration={2} separator='.' />
                 </span>
                 <br />
                 Deaths

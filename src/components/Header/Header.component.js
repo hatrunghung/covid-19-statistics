@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.styles.scss'
-import { useAnalyticsState } from '../../AnalyticsContext'
+import { useAnalyticsState } from '../../context/AnalyticsContext'
 import formatDate from '../../utils/formatDate'
 
 function Header() {
