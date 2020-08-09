@@ -1,13 +1,35 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import CountUp from 'react-countup'
 import { Row, Col } from 'react-bootstrap'
 import './Indicator.styles.scss'
-import { useAnalyticsState } from '../../context/AnalyticsContext'
+import { useAnalyticsState, useAnalyticsDispatch } from '../../context/AnalyticsContext'
+import client from '../../utils/client'
+import endpoint from '../../api/endpoint'
 
 function Indicator () {
   const { confirmed, deaths, recovered } = useAnalyticsState()
+  const dispatch = useAnalyticsDispatch()
+
+  useEffect(() => {
+    dispatch({ type: 'loading' })
+
+    client(endpoint).then(data => dispatch({
+      type: 'resolvedIndicate',
+      payload: {
+        confirmed: data.confirmed.value,
+        deaths: data.deaths.value,
+        recovered: data.recovered.value,
+        lastUpdate: data.lastUpdate
+      }
+    })).catch(error => dispatch({
+      type: 'error',
+      payload: { error }
+    }))
+  }, [])
+
   return (
-    <Row style={{ marginRight: '-5px' }}>
+    confirmed && <Row style={{ marginRight: '-5px' }}>
       <Col md={4}>
         <div className="grid-col">
           <div style={{ fontSize: 20 }}>Confirmed cases</div>

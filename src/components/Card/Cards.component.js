@@ -1,10 +1,30 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import CountUp from 'react-countup'
 import { Row, Col } from 'react-bootstrap'
-import { useAnalyticsState } from '../../context/AnalyticsContext'
+import { useAnalyticsState, useAnalyticsDispatch } from '../../context/AnalyticsContext'
+import client from '../../utils/client'
+import criticalCaseEndpoint from '../../api/criticalCaseEndpoint'
 
 function Cards() {
   const { confirmed, deaths, recovered, critical } = useAnalyticsState()
+  const dispatch = useAnalyticsDispatch()
+
+  useEffect(() => {
+    client(criticalCaseEndpoint).then(response => {
+      const confirmedCriticalCase = response.data.reduce((accumulator, current) => accumulator + current.latest_data.critical, 0)
+      return dispatch({
+        type: 'resolvedFetchMajorCase',
+        payload: {
+          critical: confirmedCriticalCase
+        }
+      })
+    })
+    .catch(error => dispatch({
+      type: 'error',
+      payload: { error }
+    }))
+  }, [])
 
   return (
     <Row style={{ marginRight: '-15px' }}>
